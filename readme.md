@@ -6,9 +6,6 @@ Example: O’Brien et al. (2017) Serum Vitamin D and Risk of Breast Cancer withi
 
 cc1 = a data set containing the case-cohort data, including the following variables
 	subcohort = 1 if in subcohort; 0 if not
-	
-	
-	
 	case = 1 if a case; 0 if not
 	age_enrollment = age at enrollment
 	age_eof = age at end of follow-up (e.g. event time or censoring time)
