@@ -277,5 +277,3 @@ MODEL exp2 = exp age_enrollment covar1 covar2 covar3 / SOLUTION CLPARM;
 	WEIGHT wt;
 RUN;
 QUIT;
-
-![image](https://user-images.githubusercontent.com/82905845/115584816-16bb4600-a299-11eb-9167-74736fc2321c.png)
