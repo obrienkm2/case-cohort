@@ -1,7 +1,6 @@
 **Code to accompany the forthcoming paper "The case for case-cohort" by Katie M. O’Brien, Kaitlyn G. Lawrence, and Alexander P. Keil.**
 
-**
-SAS coding examples for case-cohort designs
+**SAS coding examples for case-cohort designs
 “Simple” scenario (Table, row 1) All cases selected, selection probability of sub-cohort = x%
 Example: O’Brien et al. (2017) Serum Vitamin D and Risk of Breast Cancer within Five Years. Environ Health Persp**
 
