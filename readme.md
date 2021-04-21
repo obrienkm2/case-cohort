@@ -1,8 +1,9 @@
-Code to accompany the forthcoming paper "The case for case-cohort" by Katie M. O’Brien, Kaitlyn G. Lawrence, and Alexander P. Keil.
+**Code to accompany the forthcoming paper "The case for case-cohort" by Katie M. O’Brien, Kaitlyn G. Lawrence, and Alexander P. Keil.**
 
+**
 SAS coding examples for case-cohort designs
 “Simple” scenario (Table, row 1) All cases selected, selection probability of sub-cohort = x%
-Example: O’Brien et al. (2017) Serum Vitamin D and Risk of Breast Cancer within Five Years. Environ Health Persp
+Example: O’Brien et al. (2017) Serum Vitamin D and Risk of Breast Cancer within Five Years. Environ Health Persp**
 
 cc1 = a data set containing the case-cohort data, including the following variables
 	subcohort = 1 if in subcohort; 0 if not
@@ -15,7 +16,6 @@ cc1 = a data set containing the case-cohort data, including the following variab
 
 sampling_rate= number of particants in sub-cohort / number of participants in full eligible cohort
 
-*test code;
 %LET epsilon=0.01; *or any number smaller than your smallest time unit;
 %LET sampling_rate=0.05; *for the example data set cc1;
 
@@ -60,8 +60,8 @@ PROC PHREG DATA=ccnew1 covs(aggregate);
 RUN;
 
  
-Covariate-stratified case-cohort (Table, row 2) All cases selected, Sub-cohort selection probabilities of xA% (Group A) and xB% (Group B)
-Example: Niehoff et al. (in review) Metals and breast cancer risk: a prospective study using toenail biomarkers
+**Covariate-stratified case-cohort (Table, row 2) All cases selected, Sub-cohort selection probabilities of xA% (Group A) and xB% (Group B)
+Example: Niehoff et al. (in review) Metals and breast cancer risk: a prospective study using toenail biomarkers**
 
 cc2 = a data set containing the case-cohort data, including the following variables
 	subcohort = 1 if in subcohort; 0 if not
@@ -122,8 +122,8 @@ PROC PHREG DATA=ccnew2 covs(aggregate);
 	HAZARDRATIO exp;
 RUN;
  
-Outcome-stratified case-cohort (Table, row 3) 100% of type I cases and y% of type 2 cases selected; sub-cohort selection probability x% for all
-Example: Sampling 100% of estrogen receptor-negative breast cancers and 20% of estrogen receptor-positive breast cancers, with the desire to look at subtype-specific and overall exposure-disease associations
+**Outcome-stratified case-cohort (Table, row 3) 100% of type I cases and y% of type 2 cases selected; sub-cohort selection probability x% for all
+Example: Sampling 100% of estrogen receptor-negative breast cancers and 20% of estrogen receptor-positive breast cancers, with the desire to look at subtype-specific and overall exposure-disease associations**
 
 cc3 = a data set containing the case-cohort data, including the following variables
 	subcohort = 1 if in subcohort; 0 if not
@@ -185,9 +185,10 @@ PROC PHREG DATA=ccnew3 covs(aggregate);
 	ID ID;
 	HAZARDRATIO exp;
 RUN; 
-Covariate and outcome-stratified case-cohort (Table, row 4) 100% of type I cases and y% of type 2 cases selected; Sub-cohort selection probabilities of xA% (Group A) and xB% (Group B)
+
+**Covariate and outcome-stratified case-cohort (Table, row 4) 100% of type I cases and y% of type 2 cases selected; Sub-cohort selection probabilities of xA% (Group A) and xB% (Group B)
 NOTE: This assumes that case status and subgroup status are selected independently; if this is not true, weights can be re-calculated for each subgroup/subtype combination (= a product of the specified weights)
-Example: Oversampling for African-American women and estrogen receptor-negative breast cancers 
+Example: Oversampling for African-American women and estrogen receptor-negative breast cancers **
 
 cc4 = a data set containing the case-cohort data, including the following variables
 	subcohort = 1 if in subcohort; 0 if not
