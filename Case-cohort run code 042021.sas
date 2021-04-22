@@ -92,10 +92,28 @@ PROC PHREG DATA=ccnew2 covs(aggregate);
 	HAZARDRATIO exp;
 RUN;
 
+*group-stratified;
+PROC PHREG DATA=ccnew2 covs(aggregate);
+	WHERE groupA=1;
+	CLASS covar2 covar3;
+	MODEL (start,stop)*event(0) = exp covar2 covar3;
+	WEIGHT wt;
+	ID ID;
+	HAZARDRATIO exp;
+RUN;
+PROC PHREG DATA=ccnew2 covs(aggregate);
+	WHERE groupA=0;
+	CLASS covar2 covar3;
+	MODEL (start,stop)*event(0) = exp covar2 covar3;
+	WEIGHT wt;
+	ID ID;
+	HAZARDRATIO exp;
+RUN;
+
 *Example 3 (table, row 3) - outcome-strataified case-cohort;
 %LET epsilon=0.01; *or any number less than your smallest time unit;
 %LET sampling_rate=0.05; *for the example data set cc3;
-%LET sampling_rate_subtype1=0.20; *20% of subtype1 selected;
+%LET sampling_rate_subtype1=0.50; *50% of subtype1 selected;
 %LET sampling_rate_subtype2=1; *100% of subtype2 selected;
 
 *restructure data set so that cases in sub-cohort weighted differently according to time (will appear as two entries);
@@ -138,11 +156,89 @@ PROC PHREG DATA=ccnew3 covs(aggregate);
 	HAZARDRATIO exp;
 RUN;
 
+*subtype 1 only;
+DATA ccnew3_1;
+	SET wcc.cc3;
+	*selected cases within subcohort - contribute fully until just before diagnosis;
+	IF subcohort=1 AND subtype1=1 THEN DO; 
+		start = age_enrollment;
+		stop= age_eof - &epsilon; 
+		event = 0; *considered a censored observation;
+		wt= 1/&sampling_rate; *inverse probability of sampling weight;
+	OUTPUT;
+	END;
+
+	*cases contribute person-time right before event only if selected, contribute based on weights;
+	IF subtype1=1 THEN DO; 
+		start = age_eof - &epsilon; 
+		stop = age_eof;
+		event = 1;
+		wt=1/&sampling_rate_subtype1;
+	OUTPUT;
+	END;
+
+	*non-cases within subcohort - contribute full person time, censored;
+	ELSE IF subcohort=1 AND subtype1=0 THEN DO;  
+		start = age_enrollment;
+		stop = age_eof;
+		event = 0;
+		wt= 1/&sampling_rate; *inverse probability of sampling weight;
+	OUTPUT; 
+	END;
+RUN;
+
+PROC PHREG DATA=ccnew3_1 covs(aggregate);
+	CLASS covar1 covar2 covar3;
+	MODEL (start,stop)*event(0) = exp covar1 covar2 covar3;
+	WEIGHT wt;
+	ID ID;
+	HAZARDRATIO exp;
+RUN;
+
+*subtype 2 only;
+DATA ccnew3_2;
+	SET wcc.cc3;
+	*selected cases within subcohort - contribute fully until just before diagnosis;
+	IF subcohort=1 AND subtype2=1 THEN DO; 
+		start = age_enrollment;
+		stop= age_eof - &epsilon; 
+		event = 0; *considered a censored observation;
+		wt= 1/&sampling_rate; *inverse probability of sampling weight;
+	OUTPUT;
+	END;
+
+	*cases contribute person-time right before event only if selected, contribute based on weights;
+	IF subtype2=1 THEN DO; 
+		start = age_eof - &epsilon; 
+		stop = age_eof;
+		event = 1;
+		wt=1/&sampling_rate_subtype2;
+	OUTPUT;
+	END;
+
+	*non-cases within subcohort - contribute full person time, censored;
+	ELSE IF subcohort=1 AND subtype2=0 THEN DO;  
+		start = age_enrollment;
+		stop = age_eof;
+		event = 0;
+		wt= 1/&sampling_rate; *inverse probability of sampling weight;
+	OUTPUT; 
+	END;
+RUN;
+
+PROC PHREG DATA=ccnew3_2 covs(aggregate);
+	CLASS covar1 covar2 covar3;
+	MODEL (start,stop)*event(0) = exp covar1 covar2 covar3;
+	WEIGHT wt;
+	ID ID;
+	HAZARDRATIO exp;
+RUN;
+
 *Example 4 (table, row 4) - covariate- and outcome-strataified case-cohort;
 %LET epsilon=0.01; *or any number less than your smallest time unit;
 %LET sampling_rateA=0.08; *for the example data set cc4;
 %LET sampling_rateB=0.15; *for the example data set cc4;
-%LET sampling_rate_subtype1=0.20; *20% of subtype1 selected;
+%LET sampling_rate_subtype1=0.50; *50% of subtype1 selected;
 %LET sampling_rate_subtype2=1; *100% of subtype2 selected;
 
 *restructure data set so that cases in sub-cohort weighted differently according to time (will appear as two entries);
