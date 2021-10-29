@@ -1,1 +1,1 @@
-Code to accompany the forthcoming paper "The case for case-cohort" by Katie M. O’Brien, Kaitlyn G. Lawrence, and Alexander P. Keil.
+Code to accompany the forthcoming paper "The case for case-cohort: An applied epidemiologist’s guide to re-framing case-cohort studies to improve usability and flexibility" by Katie M. O’Brien, Kaitlyn G. Lawrence, and Alexander P. Keil.
